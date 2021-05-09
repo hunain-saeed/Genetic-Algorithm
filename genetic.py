@@ -7,10 +7,10 @@ def randomBits(bits):
     return s
 
 def generateInitialPopulation(no_of_pop, bits):
-    pArr = [randomBits(bits) for i in range(no_of_pop)]
-    fit = [int(pArr[i],2) for i in range(no_of_pop)]
+    pop = [randomBits(bits) for i in range(no_of_pop)]
+    fit = [int(pop[i],2) for i in range(no_of_pop)]
 
-    return pArr, fit
+    return pop, fit
 
 def selection(pop, fit):
     mini = fit.index(min(fit))
@@ -20,14 +20,35 @@ def selection(pop, fit):
 
     return pop, fit
 
+def crossover(pop, fit, bits):
+    crossPoint = int(bits/2)
+    x = len(pop)
+    if len(pop)%2:
+        x = len(pop)-1
+
+
+    for i in range(0, x, 2):
+        temp = pop[i][:crossPoint] + pop[i+1][crossPoint:]
+        pop[i+1] = pop[i+1][:crossPoint] + pop[i][crossPoint:]
+        pop[i] = temp
+        fit[i] = int(pop[i],2)
+        fit[i+1] = int(pop[i],2)
+
+    return pop, fit
+
+
+
+####################################################################################################33
+
 no_of_pop = int(input("Enter size of initial population: "))
 bits = int(input("Enter size of bits: "))
 
 # Initial population creation
 pop, fitness = generateInitialPopulation(no_of_pop, bits)
 
-print("Initial population: ", pop)
-print("Fitness: ", fitness)
+print("Initial population:")
+print(pop)
+print(fitness)
 
 # Stopping condition
 maxPop = pow(2, bits)-1
@@ -37,8 +58,27 @@ if(maxPop == max(fitness)):
     print("Condition fullfilled!")
 else:
     while(maxPop != max(fitness)):
+
         # Perform selection
         pop, fitness = selection(pop, fitness)
+        print("\nSelection:")
         print(pop)
         print(fitness)
 
+        # Perform Crossover
+        pop, fitness = crossover(pop, fitness, bits)
+        print("\nCrossover:")
+        print(pop)
+        print(fitness)
+
+        # Perform Mutation
+        pop, fitness = crossover(pop, fitness, bits)
+        print("\nMutation:")
+        print(pop)
+        print(fitness)
+
+
+        print("Max fitness of generation (", generation, ") is ", max(fitness))
+            
+        generation += 1
+        print("__________________________________________")
