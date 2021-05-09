@@ -22,10 +22,10 @@ def selection(pop, fit):
 
 def crossover(pop, fit, bits):
     crossPoint = int(bits/2)
+
     x = len(pop)
     if len(pop)%2:
         x = len(pop)-1
-
 
     for i in range(0, x, 2):
         temp = pop[i][:crossPoint] + pop[i+1][crossPoint:]
@@ -36,7 +36,11 @@ def crossover(pop, fit, bits):
 
     return pop, fit
 
+def mutation(pop, fit, bits):
+    for i in range(len(pop)):
+        pop[i] = pop[i].replace('0', '1', 1)
 
+    return pop, fit
 
 ####################################################################################################33
 
@@ -46,7 +50,7 @@ bits = int(input("Enter size of bits: "))
 # Initial population creation
 pop, fitness = generateInitialPopulation(no_of_pop, bits)
 
-print("Initial population:")
+print("\nInitial population:")
 print(pop)
 print(fitness)
 
@@ -58,7 +62,8 @@ if(maxPop == max(fitness)):
     print("Condition fullfilled!")
 else:
     while(maxPop != max(fitness)):
-
+        print("__________________________________________")
+        
         # Perform selection
         pop, fitness = selection(pop, fitness)
         print("\nSelection:")
@@ -72,13 +77,10 @@ else:
         print(fitness)
 
         # Perform Mutation
-        pop, fitness = crossover(pop, fitness, bits)
+        pop, fitness = mutation(pop, fitness, bits)
         print("\nMutation:")
         print(pop)
         print(fitness)
 
-
         print("Max fitness of generation (", generation, ") is ", max(fitness))
-            
         generation += 1
-        print("__________________________________________")
