@@ -49,7 +49,6 @@ bits = int(input("Enter size of bits: "))
 
 # Initial population creation
 pop, fitness = generateInitialPopulation(no_of_pop, bits)
-
 print("\nInitial population:")
 print(pop)
 print(fitness)
@@ -63,7 +62,7 @@ if(maxPop == max(fitness)):
 else:
     while(maxPop != max(fitness)):
         print("__________________________________________")
-        
+
         # Perform selection
         pop, fitness = selection(pop, fitness)
         print("\nSelection:")
@@ -84,3 +83,4 @@ else:
 
         print("Max fitness of generation (", generation, ") is ", max(fitness))
         generation += 1
+
